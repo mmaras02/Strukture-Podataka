@@ -294,11 +294,12 @@ int main(){
 
     PrintList(p->next);
     printf("\n");
+    
+    ReadFromFile(p,"list.txt");
 
     Sortagain(&head);
 
-    PrintList(p->next);
-    printf("\n");
+    PrintInFile(p->next,"list.txt");
 
     
 

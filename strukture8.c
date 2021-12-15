@@ -33,14 +33,14 @@ int main()
     
     while(1)
     {
-        printf("\n1 -> Add a new element to the tree\n"
+         printf("\n1 -> Add a new element to the tree\n"
                 "2 -> Print inorder\n"
                 "3 -> Print preorder\n"
                 "4 -> Print postorder\n"
-                "6 -> Print level order\n"
-                "7 -> Find an element\n"
-                "8 -> Delete an element\n"
-                "9 -> Exit\n");
+                "5 -> Find an elemet\n"
+                "6 -> Delete an element\n"
+                "7 -> Delete everything\n"
+                "8 -> Exit\n");
         scanf(" %d", &situation);
         switch(situation)
         {

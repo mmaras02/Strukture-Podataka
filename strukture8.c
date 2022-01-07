@@ -33,7 +33,7 @@ int main()
     
     while(1)
     {
-        printf("\n1 -> Add a new element to the tree\n"
+         printf("\n1 -> Add a new element to the tree\n"
                 "2 -> Print inorder\n"
                 "3 -> Print preorder\n"
                 "4 -> Print postorder\n"

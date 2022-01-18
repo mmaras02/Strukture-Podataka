@@ -18,7 +18,8 @@ Position InsertElement(int, Position);
 int PrintInorder(Position);
 int PrintPreorder(Position);
 int PrintPostorder(Position);
-int PrintLevel(Position,int,int);
+int PrintLevel(Position,int);
+int PrintLevelOrder(Position);
 Position SearchElement(Position root, int element);
 Position SearchMin(Position root);
 Position SearchMax(Position root);
@@ -37,10 +38,11 @@ int main()
                 "2 -> Print inorder\n"
                 "3 -> Print preorder\n"
                 "4 -> Print postorder\n"
-                "5 -> Find an elemet\n"
-                "6 -> Delete an element\n"
-                "7 -> Delete everything\n"
-                "8 -> Exit\n");
+                "5 -> print level order\n"
+                "6 -> Find an elemet\n"
+                "7 -> Delete an element\n"
+                "8 -> Delete everything\n"
+                "9 -> Exit\n");
         scanf(" %d", &situation);
         switch(situation)
         {
@@ -80,6 +82,14 @@ int main()
             }
             case 5:
             {
+                printf("\n");
+                PrintLevelOrder(root);
+                printf("\n");
+                situation=0;
+                break;
+            }
+            case 6:
+            {
                 int n=0;
                 printf("\n");
                 printf("Enter the value you would like to check for:\n");
@@ -91,7 +101,7 @@ int main()
                 situation=0;
                 break;
             }
-            case 6:
+            case 7:
             {
                 int n=0;
                 printf("\n");
@@ -103,7 +113,7 @@ int main()
                 situation=0;
                 break;
             }
-            case 7:
+            case 8:
             {
                 DeleteAll(root);
                 return 0;
@@ -176,6 +186,28 @@ int PrintPreorder(Position root);
 	}
 	return 0;
 }
+int PrintLevel(Position root,int level)
+{
+    int left=0,right=0;
+    if(root==NULL)
+        return 0;
+    if(level==1)
+    {
+        printf("%d\n",root->data);
+        return 1;
+    }
+    left=PrintLevel(root->left,level-1);
+    right=PrintLevel(root->right,level-1);
+    return left||right;
+}
+int PrintLevelOrder(Position root)
+{
+    int level=1;
+    while (PrintLevel(root, level))
+        level++;
+    return 0;
+}
+
 
 Position SearchElement(Position root, int element)
 {

@@ -25,7 +25,7 @@ Position MakeDirectory(Position current, char* name);
 int PushStack(Position current, PositionS stackHead);
 Position PopStack(PositionS stackHead);
 Position ChangeDirectory(Position current, PositionS stackHead, char* name)
-int PrintDirectory(current);
+int PrintDirectory(Position current);
 int Delete(Position current);
 
 int main()
@@ -206,7 +206,7 @@ Position ChangeDirectory(Position current, PositionS stackHead, char* name)
 		return current;
 	}
 }
-int PrintDirectory( current)
+int PrintDirectory(Position current)
 {
 	if (!current->child)
 		printf("Directory is empty!\n");

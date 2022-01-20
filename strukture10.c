@@ -9,7 +9,7 @@ struct _Country;
 typedef struct _Country* Pointer;
 typedef struct _Country {
 	char name[MAX_LEN];
-	Pointer root;
+	Position root;
 	Pointer next;
 }Country;
 
@@ -31,12 +31,12 @@ Position ReadCitiesFromFile(char* fileName, Pointer p);
 int PrintCities(Position p);
 int PrintList(Pointer first);
 Pointer FindCountry(char* name, Pointer first);
-int FindMorePopulated(Position city, int population);
-int FindMorePopulatedCountry(Pointer country, int n);
+int PrintCountryBiggerThan(Pointer country, int n);
+int PrintCitiesBiggerThan(Position p, int n);
 
 int main()
 {
-    list head={.next=NULL, .name={0}, .root=NULL};
+    Country head={.next=NULL, .name={0}, .root=NULL};
     Pointer pHead=&head;
 
     int situation=0;
@@ -73,7 +73,7 @@ int main()
                 int n=0;
                 printf("Enter the name of the country and the population:\n");
                 scanf(" %s %d", str, &n);
-                FindMorePopulatedCountry(FindCountry(str, pHead->next), n);
+                PrintCountryBiggerThan(FindCountry(str, pHead->next), n);
              situation=0;
                 break;
             }
@@ -131,10 +131,10 @@ Position AddCity(Position p, Position newElement)
     if(p == NULL)
         return newElement;
 	
-	else if(p->pop<newElement->population)
+	else if(p->population<newElement->population)
         p->Right=AddCity(p->Right,newElement);
 
-    else if(p->pop>newElement->population)
+    else if(p->population>newElement->population)
         p->Left=AddCity(p->Left,newElement);
 	
 	else if(strcmp(p->name, newElement->name)<0)
@@ -172,17 +172,17 @@ int AddCountry(Pointer head, Pointer newElement)
     else
         newElement->next=temp->next;
         temp->next=newElement;
-
+    
     return 0;
 }
 
 int ReadCountriesFromFile(char* fileName, Pointer p)
 {
     Pointer temp=NULL;
-    char buffer[MAX_SIZE]={0};
+    char buffer[MAX_LEN]={0};
     char name[128]={0};
     char fName[128]={0};
-    list files={.next=NULL, .name={0}, .root=NULL};
+    Country files={.next=NULL, .name={0}, .root=NULL};
     Pointer pFiles=&files;
     
 	FILE* f=NULL;
@@ -216,7 +216,7 @@ int ReadCountriesFromFile(char* fileName, Pointer p)
 
 Position ReadCitiesFromFile(char* fileName, Pointer p)
 {
-    char buffer[MAX_SIZE]={0};
+    char buffer[MAX_LEN]={0};
     char name[128]={0};
     int population=0;
 	Position newCity=NULL;
@@ -271,24 +271,30 @@ Pointer FindCountry(char* name, Pointer first)
     }
     return temp;
 }
-int FindMorePopulated(Position city, int population)
-{
-	int cityNumber = 0;
-	if (city->population > population) {
-		cityNumber++;
-		printf("\t%s %d\n", city->name, city->population);
-		if (city->Right != NULL) PrintCities(city->Right);
-		cityNumber += FindMorePopulated(city->Left, population);
-	}
-	else return cityNumber;
-}
-int FindMorePopulatedCountry(Pointer country, int n)
+
+int PrintCountryBiggerThan(Pointer country, int n)
 {
     if(!country)
-        perror("There is no such country on the list.\n");
-        return EXIT_FAILURE;
+    {
+        printf("There is no such country.\n");
+        return -1;
+    }
     
-    FindMorePopulated(country->root, n);
+    PrintCitiesBiggerThan(country->root, n);
+    
+    return 0;
+}
+
+int PrintCitiesBiggerThan(Position p, int n)
+{
+    if(!p)
+        return 0;
+    PrintCitiesBiggerThan(p->Right, n);
+    if(p->population>=n)
+    {
+        printf("\t%-12s - %d\n", p->name, p->population);
+        PrintCitiesBiggerThan(p->Left, n);
+    }
     
     return 0;
 }
